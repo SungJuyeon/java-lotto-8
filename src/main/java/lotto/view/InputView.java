@@ -7,6 +7,10 @@ public class InputView {
 
     public long purchaseAmount() {
         System.out.println(InputUserPurchaseAmount);
-        return Long.parseLong(Console.readLine());
+        try {
+            return Long.parseLong(Console.readLine());
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("[ERROR] 숫자를 입력해 주세요.");
+        }
     }
 }

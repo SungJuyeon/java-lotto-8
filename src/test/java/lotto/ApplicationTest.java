@@ -1,6 +1,7 @@
 package lotto;
 
 import camp.nextstep.edu.missionutils.test.NsTest;
+import lotto.controller.LottoController;
 import lotto.view.InputView;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -63,6 +64,15 @@ class ApplicationTest extends NsTest {
         String overLongValue = "9223372036854775808";
         assertThatThrownBy(() -> Long.parseLong(overLongValue))
                 .isInstanceOf(NumberFormatException.class);
+    }
+
+    @DisplayName("구입금액이 1000으로 안나누어떨어지면 예외 발생")
+    @Test
+    void 구입금액이_1000으로_안나누어떨어지면_예외가_발생한다(){
+        assertSimpleTest(() -> {
+            runException("1004");
+            assertThat(output()).contains(ERROR_MESSAGE);
+        });
     }
 
     @Override

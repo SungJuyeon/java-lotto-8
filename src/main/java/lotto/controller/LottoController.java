@@ -7,6 +7,7 @@ public class LottoController {
     private InputView inputView;
 
     public LottoController() {
+        this.inputView = new InputView();
     }
 
     public void start() {
@@ -15,11 +16,7 @@ public class LottoController {
     }
 
     public long userAmountDivisibleByThousand() {
-        try {
-            long userAmount = inputView.purchaseAmount();
-            return ValidateInput.divisibleByThousand(userAmount);
-        } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("[Error] UserAmount is too big");
-        }
+        long userAmount = inputView.purchaseAmount();
+        return ValidateInput.divisibleByThousand(userAmount);
     }
 }
