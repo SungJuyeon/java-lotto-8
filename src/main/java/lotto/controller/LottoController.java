@@ -1,6 +1,6 @@
 package lotto.controller;
 
-import lotto.domain.ValidateInput;
+import lotto.domain.DivisibleAmount;
 import lotto.view.InputView;
 
 public class LottoController {
@@ -17,6 +17,6 @@ public class LottoController {
 
     public long userAmountDivisibleByThousand() {
         long userAmount = inputView.purchaseAmount();
-        return ValidateInput.divisibleByThousand(userAmount);
+        return DivisibleAmount.divisibleByThousand(userAmount);
     }
 }
