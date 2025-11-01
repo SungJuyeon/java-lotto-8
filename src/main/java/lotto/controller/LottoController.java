@@ -1,9 +1,14 @@
 package lotto.controller;
 
 import lotto.domain.DivisibleAmount;
+import lotto.domain.Lotto;
 import lotto.domain.LottoMachine;
+import lotto.domain.ValidateWinningNumber;
 import lotto.view.InputView;
 import lotto.view.OutputView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class LottoController {
     private InputView inputView;
@@ -21,7 +26,7 @@ public class LottoController {
         lottoMachine.drawLotto(lottoCount);
         announceAutoLottos();
 
-        //당첨번호 입력받기
+        inputWinningNumbers();
 
         //보너스 번호 입력받기
 
@@ -38,4 +43,18 @@ public class LottoController {
         outputView.announceLottoInfo(lottoMachine.getLottos());
     }
 
+    public void inputWinningNumbers() {
+        String inputWinningNumber = inputView.winningNumbers();
+        ValidateWinningNumber.validateWinningNumber(inputWinningNumber);
+        Lotto winningLotto = parseNumbers(inputWinningNumber);
+    }
+
+    public Lotto parseNumbers(String inputNumber) {
+        String[] parts = inputNumber.trim().split(",");
+        List<Integer> inputNumbers = new ArrayList<>();
+        for (String part : parts) {
+            inputNumbers.add(Integer.parseInt(part));
+        }
+        return new Lotto(inputNumbers);
+    }
 }
