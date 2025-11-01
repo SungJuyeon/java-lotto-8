@@ -4,6 +4,7 @@ import camp.nextstep.edu.missionutils.Console;
 
 public class InputView {
     public static final String InputUserPurchaseAmount = "구입금액을 입력해 주세요.";
+    public static final String InputWinningNumbers = "당첨 번호를 입력해 주세요.";
 
     public long purchaseAmount() {
         System.out.println(InputUserPurchaseAmount);
@@ -12,5 +13,10 @@ public class InputView {
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException("[ERROR] 숫자를 입력해 주세요.");
         }
+    }
+
+    public String winningNumbers() {
+        System.out.println(InputWinningNumbers);
+        return Console.readLine();
     }
 }
