@@ -19,20 +19,17 @@ public class LottoController {
     }
 
     public void start() {
-        long lottoCount = userAmountDivisibleByThousand();
+        long userAmount = inputView.purchaseAmount();
+        long lottoCount = DivisibleAmount.divisibleByThousand(userAmount);
+
         lottoMachine.drawLotto(lottoCount);
         announceAutoLottos();
 
         Lotto winningLotto = inputWinningNumbers();
         int bonusNumber = inputBonusNumber(winningLotto);
 
-        //당첨 통계 계산하기
-        //당첨 통계 출력하기
-    }
-
-    public long userAmountDivisibleByThousand() {
-        long userAmount = inputView.purchaseAmount();
-        return DivisibleAmount.divisibleByThousand(userAmount);
+        WinningStatistics statistics = calculateWinningStatistics(winningLotto, bonusNumber, userAmount);
+        outputView.printWinningStatistics(statistics);
     }
 
     public void announceAutoLottos() {
@@ -58,5 +55,18 @@ public class LottoController {
         int bonusNumber = inputView.inputBonusNumber();
         ValidateBonusNumber.validateBonusNumber(bonusNumber, winningLotto.getNumbers());
         return bonusNumber;
+    }
+
+    private WinningStatistics calculateWinningStatistics(Lotto winningLotto, int bonusNumber, long purchaseAmount) {
+        WinningStatistics statistics = new WinningStatistics(purchaseAmount);
+        List<Lotto> userLottos = lottoMachine.getLottos();
+
+        for (Lotto userLotto : userLottos) {
+            LottoResult result = new LottoResult(userLotto, winningLotto, bonusNumber);
+            LottoRank rank = result.calculateRank();
+            statistics.addResult(rank);
+        }
+
+        return statistics;
     }
 }
