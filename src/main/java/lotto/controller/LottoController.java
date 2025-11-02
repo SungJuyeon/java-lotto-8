@@ -1,9 +1,6 @@
 package lotto.controller;
 
-import lotto.domain.DivisibleAmount;
-import lotto.domain.Lotto;
-import lotto.domain.LottoMachine;
-import lotto.domain.ValidateWinningNumber;
+import lotto.domain.*;
 import lotto.view.InputView;
 import lotto.view.OutputView;
 
@@ -26,9 +23,8 @@ public class LottoController {
         lottoMachine.drawLotto(lottoCount);
         announceAutoLottos();
 
-        inputWinningNumbers();
-
-        //보너스 번호 입력받기
+        Lotto winningLotto = inputWinningNumbers();
+        int bonusNumber = inputBonusNumber(winningLotto);
 
         //당첨 통계 계산하기
         //당첨 통계 출력하기
@@ -43,10 +39,10 @@ public class LottoController {
         outputView.announceLottoInfo(lottoMachine.getLottos());
     }
 
-    public void inputWinningNumbers() {
+    private Lotto inputWinningNumbers() {
         String inputWinningNumber = inputView.winningNumbers();
         ValidateWinningNumber.validateWinningNumber(inputWinningNumber);
-        Lotto winningLotto = parseNumbers(inputWinningNumber);
+        return parseNumbers(inputWinningNumber);
     }
 
     public Lotto parseNumbers(String inputNumber) {
@@ -56,5 +52,11 @@ public class LottoController {
             inputNumbers.add(Integer.parseInt(part));
         }
         return new Lotto(inputNumbers);
+    }
+
+    private int inputBonusNumber(Lotto winningLotto) {
+        int bonusNumber = inputView.inputBonusNumber();
+        ValidateBonusNumber.validateBonusNumber(bonusNumber, winningLotto.getNumbers());
+        return bonusNumber;
     }
 }
